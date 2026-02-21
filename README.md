@@ -110,18 +110,3 @@ Open the URL shown (e.g. http://localhost:8080) to see the DAG and model descrip
 
 For Postgres, BigQuery, Snowflake, etc., put the right connection in `~/.dbt/profiles.yml` under profile `irembo_voice_ai`. For BigQuery, in `mart_adoption.sql` change `date_trunc('month', session_date)::date` to `date_trunc(session_date, month)`.
 
----
-
-### Using the starter project
-
-Try running the following commands:
-- dbt run
-- dbt test
-
-
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
