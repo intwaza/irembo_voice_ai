@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: fact_voice_ai_sessions
+    description: "Fact table: one row per Voice AI session. Includes user attributes (region, vulnerable, first-time digital), session measures (duration, turns, repeats), service completion outcome, and error/timeout flag. Central table for building KPIs and ad-hoc analysis."
+    columns:
+      - name: session_id
+        description: "Unique session identifier."
+      - name: user_id
+        description: "User who started the session."
+      - name: session_date
+        description: "Date of the session."
+      - name: region
+        description: "User region: rural or urban."
+      - name: is_vulnerable
+        description: "1 if user is disabled or first-time digital; 0 otherwise."
+      - name: is_first_time_digital_user
+        description: "1 if user has no prior Irembo digital service history; 0 otherwise."
+      - name: final_outcome
+        description: "Session outcome: completed, abandoned, or transferred."
+      - name: total_duration_sec
+        description: "Session duration in seconds."
+      - name: total_turns
+        description: "Number of conversation turns in the session."
+      - name: repeat_count
+        description: "Number of turns where the user repeated the same request."
+      - name: had_completed_application
+        description: "1 if the session led to at least one completed voice application; 0 otherwise."
+      - name: time_to_submit_sec_completed
+        description: "Time from session start to application submit (seconds), for completed applications only; null otherwise."
+      - name: has_error_or_timeout
+        description: "1 if session had repeated_errors, escalation, or misunderstanding; 0 otherwise."
+
+  - name: mart_accessibility_inclusivity
+    description: "Accessibility/Inclusivity KPIs: rural user growth %, vulnerable completion rate %, first-time digital rate %, completion rate gaps."
+    columns:
+      - name: rural_user_growth_pct
+        description: "% of active Voice AI users from rural areas."
+      - name: vulnerable_user_completion_rate_pct
+        description: "% of vulnerable-user sessions that ended in successful service completion."
+      - name: first_time_digital_user_rate_pct
+        description: "% of Voice AI users with no prior Irembo digital service history."
+      - name: completion_gap_urban_minus_rural_pct
+        description: "Completion rate gap: urban minus rural (percentage points)."
+      - name: completion_gap_non_vulnerable_minus_vulnerable_pct
+        description: "Completion rate gap: non-vulnerable minus vulnerable (percentage points)."
+
+  - name: mart_efficiency
+    description: "Efficiency KPIs: avg session duration, avg turns/repeats, session error/timeout %, avg service completion time."
+    columns:
+      - name: avg_session_duration_sec
+        description: "Average session duration in seconds."
+      - name: avg_turns_per_session
+        description: "Average number of turns per session (friction)."
+      - name: avg_repeats_per_session
+        description: "Average number of repeat intents per session (friction)."
+      - name: session_error_timeout_rate_pct
+        description: "% of sessions with at least one error or timeout."
+      - name: avg_service_completion_time_sec
+        description: "Average time to submit (seconds) for sessions with completed applications."
+
+  - name: mart_adoption
+    description: "Adoption KPIs: MAU (latest month), user retention %, MoM growth %, Voice AI adoption among target users %."
+    columns:
+      - name: mau_latest_month
+        description: "Monthly Active Users for the latest month in the data."
+      - name: mau_month
+        description: "Month for which mau_latest_month is calculated."
+      - name: user_retention_rate_pct
+        description: "% of users with more than one Voice AI session."
+      - name: mom_growth_rate_pct
+        description: "Month-over-month % change in total sessions (latest month)."
+      - name: mom_growth_month
+        description: "Month for which mom_growth_rate_pct is calculated."
+      - name: voice_ai_adoption_target_users_pct
+        description: "% of vulnerable users (disability or first-time digital) who used Voice AI."

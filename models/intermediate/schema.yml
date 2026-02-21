@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: int_sessions_with_users
+    description: "Sessions joined to user attributes: region, is_vulnerable, first_time_digital. Used for accessibility and adoption KPIs."
+  - name: int_session_service_outcomes
+    description: "Per-session: had_completed_application flag and time_to_submit for completed apps. Used for completion rate and service completion time."
+  - name: int_session_errors
+    description: "Per-session flag: has_error_or_timeout (repeated_errors, escalation, or misunderstanding). Used for session error/timeout rate."
+  - name: int_turn_friction
+    description: "Per-session: total_turns and repeat_count. Used for conversation friction KPI."

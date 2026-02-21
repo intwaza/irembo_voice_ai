@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: "Staged users: region (rural/urban), disability, first-time digital. One row per user."
+  - name: stg_voice_sessions
+    description: "Staged Voice AI sessions: duration, outcome, turns, session date."
+  - name: stg_voice_turns
+    description: "Staged voice turns: utterance-level intent and error type per session."
+  - name: stg_voice_ai_metrics
+    description: "Staged AI metrics per session: confidence, misunderstanding rate, escalation."
+  - name: stg_applications
+    description: "Staged service applications: status, channel, time to submit."
