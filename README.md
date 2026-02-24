@@ -1,5 +1,3 @@
-
-
 ## Voice AI KPIs (dbt models)
 
 This project implements the **Accessibility**, **Efficiency**, and **Adoption** KPIs for the Irembo Voice AI assignment as dbt models.
@@ -33,12 +31,11 @@ This project implements the **Accessibility**, **Efficiency**, and **Adoption** 
    - **completion_rate_by_channel.sql** — Completion rate: voice vs USSD vs web.
    - **completion_rate_by_region.sql** — Completion rate: rural vs urban (Voice AI sessions).
    - **first_time_digital_users_analysis.sql** — For first-time digital users, completion rate by channel (Voice vs others).  
-   See **analyses/PART3_INSIGHTS_SUMMARY.md** for how to turn results into 2–4 key insights for the report.
 
 ### Definitions used in the models
 
 - **Vulnerable user**: `disability_flag = 'yes'` OR `first_time_digital_user = 'yes'` (no low-literacy column in the data; add it in `stg_users` / `int_sessions_with_users` if you have it).
-- **Successful service completion**: session has at least one application with `status = 'completed'` and `channel = 'voice'`.
+- **Successful service completion**: session has at least one application with `status = 'completed'` linked to that session (any channel). Voice sessions that lead to completion via USSD or web are still counted as successful.
 - **Session error/timeout**: `transfer_reason = 'repeated_errors'` OR `escalation_flag = 'yes'` OR `misunderstanding_rate > 0`.
 
 ### Run with DuckDB (local)
@@ -47,9 +44,9 @@ This project runs with **DuckDB** (no separate database server).
 
 1. **Install dependencies** (from the project root):
    ```bash
-   pip install -r requirements.txt
+   pip install dbt-core dbt-duckdb
    ```
-   Installs `dbt-core` and `dbt-duckdb`.
+   If the project includes a `requirements.txt`, you can instead run: `pip install -r requirements.txt`.
 
 2. **Profile at the dbt root**  
    dbt looks for `profiles.yml` in **`~/.dbt/profiles.yml`** (your user directory, not inside the project).  
@@ -78,25 +75,20 @@ That means the `dbt` in your path is **dbt-fusion** (or another fork that doesn�
   ```bash
   python3 -m venv .venv
   source .venv/bin/activate   # on Windows: .venv\Scripts\activate
-  pip install -r requirements.txt
+  pip install dbt-core dbt-duckdb
   ```
-- Run with this env active so `dbt` is the one from `requirements.txt`:
+- Run with this env active so `dbt` is the one from your venv:
   ```bash
   dbt seed
   dbt run
   ```
 - If you previously had `dbt-fusion` (or similar) in this env, uninstall it first:  
-  `pip uninstall dbt-fusion` (or the package name you see in `pip list`), then `pip install -r requirements.txt` again.
+  `pip uninstall dbt-fusion` (or the package name you see in `pip list`), then `pip install dbt-core dbt-duckdb` again.
 
 ### View the data and docs
 
-**1. In the browser (tables + KPIs)**  
-From the project root, with the same env that has `dbt` and DuckDB:
-```bash
-pip install streamlit   # if not already in requirements.txt
-streamlit run view_data.py
-```
-A tab opens with: Seeds, Staging, Intermediate, Fact & marts (including the one-row KPI tables), and a “Browse all” tab.
+**1. Query the database**  
+After `dbt run`, open the DuckDB file (e.g. `duckdb target/irembo_voice_ai.duckdb` or the path in your profile) to query seeds, staging, intermediate, and marts. You can also use the DuckDB CLI with `-ui` for a simple UI.
 
 **2. Project lineage and model docs**  
 After `dbt run`:
