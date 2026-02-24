@@ -97,8 +97,3 @@ dbt docs generate
 dbt docs serve
 ```
 Open the URL shown (e.g. http://localhost:8080) to see the DAG and model descriptions (no row data).
-
-### Other warehouses
-
-For Postgres, BigQuery, Snowflake, etc., put the right connection in `~/.dbt/profiles.yml` under profile `irembo_voice_ai`. For BigQuery, in `mart_adoption.sql` change `date_trunc('month', session_date)::date` to `date_trunc(session_date, month)`.
-
